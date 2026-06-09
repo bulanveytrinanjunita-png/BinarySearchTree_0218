@@ -74,3 +74,13 @@ public:
                 currentnode = currentnode->rightchild;
         }
     }
+
+    void inorder(node *ptr)
+    {
+        if (root == NULL)
+        {
+            cout << "tree is empty" << endl;
+            return;
+        }
+    }
+}

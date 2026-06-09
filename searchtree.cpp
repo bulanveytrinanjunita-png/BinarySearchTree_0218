@@ -170,6 +170,9 @@ int main()
             obj.postorder(obj.root);
             break;
         }
+
+        case '5':
+            return 0;
         }
         return 0;
     }

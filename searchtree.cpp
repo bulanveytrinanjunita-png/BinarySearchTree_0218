@@ -2,15 +2,15 @@
 #include <string>
 using namespace std;
 
-class Node
+class node
 {
 public:
     string info;
-    Node *leftchild;
-    Node *rightchild;
+    node *leftchild;
+    node *rightchild;
 
-    // Constructor for the node class
-    Node(string i, Node *l, Node *r)
+    // constructor for node class
+    node(string i, node *l, node *r)
     {
         info = i;
         leftchild = l;
@@ -18,43 +18,168 @@ public:
     }
 };
 
-class BinaryTree
+class binarytree
 {
 public:
-    Node *ROOT;
+    node *root;
 
-    BinaryTree()
+    binarytree()
     {
-        ROOT = NULL; // Initialize ROOT to null
+        root = NULL;
     }
 
-    // Insert a node in the binary search tree
     void insert(string element)
     {
-        Node *newNode = new Node(element, NULL, NULL);
+        node *newnode = new node(element, NULL, NULL);
 
-        newNode->info = element;
-        newNode->leftchild = NULL;
-        newNode->rightchild = NULL;
+        newnode->info = element;
+        newnode->leftchild = NULL;
+        newnode->rightchild = NULL;
 
-        Node *parent = NULL;
-        Node *currentNode = NULL;
+        node *parent = NULL;
+        node *currentnode = NULL;
 
-        search(element, parent, currentNode);
+        search(element, parent, currentnode);
 
         if (parent == NULL)
         {
-            ROOT = newNode;
+            root = newnode;
             return;
         }
 
         if (element < parent->info)
         {
-            parent->leftchild = newNode;
+            parent->leftchild = newnode;
         }
         else if (element > parent->info)
         {
-            parent->rightchild = newNode;
+            parent->rightchild = newnode;
         }
     }
+
+    // this function searches the current node of the specified node
+    // as well as the current node of its parent
+    void search(string element, node *&parent, node *&currentnode)
+    {
+        currentnode = root;
+        parent = NULL;
+
+        while (currentnode != NULL && currentnode->info != element)
+        {
+            parent = currentnode;
+
+            if (element < currentnode->info)
+                currentnode = currentnode->leftchild;
+            else
+                currentnode = currentnode->rightchild;
+        }
+    }
+
+    void inorder(node *ptr)
+    {
+        if (root == NULL)
+        {
+            cout << "tree is empty" << endl;
+            return;
+        }
+
+        if (ptr != NULL)
+        {
+            inorder(ptr->leftchild);
+            cout << ptr->info << " ";
+            inorder(ptr->rightchild);
+        }
+    }
+
+    void preorder(node *ptr)
+    {
+        if (root == NULL)
+        {
+            cout << "tree is empty" << endl;
+            return;
+        }
+
+        if (ptr != NULL)
+        {
+            cout << ptr->info << " ";
+            preorder(ptr->leftchild);
+            preorder(ptr->rightchild);
+        }
+    }
+
+    void postorder(node *ptr)
+    {
+        if (root == NULL)
+        {
+            cout << "tree is empty" << endl;
+            return;
+        }
+
+        if (ptr != NULL)
+        {
+            postorder(ptr->leftchild);
+            postorder(ptr->rightchild);
+            cout << ptr->info << " ";
+        }
+    }
+};
+
+int main()
+{
+    binarytree obj;
+
+    while (true)
+    {
+        cout << "\nmenu" << endl;
+        cout << "1. implement insert operation" << endl;
+        cout << "2. implement inorder traversal" << endl;
+        cout << "3. implement preorder traversal" << endl;
+        cout << "4. implement postorder traversal" << endl;
+        cout << "5. exit" << endl;
+        cout << "\nenter your choice: " << endl;
+
+        char ch;
+        cin >> ch;
+
+        cout << endl;
+
+        switch (ch)
+        {
+        case '1':
+        {
+            cout << "enter a word: ";
+            string word;
+            cin >> word;
+            obj.insert(word);
+            break;
+        }
+        case '2':
+        {
+            obj.inorder(obj.root);
+            break;
+        }
+
+        case '3':
+        {
+            obj.preorder(obj.root);
+            break;
+        }
+
+        case '4':
+        {
+            obj.postorder(obj.root);
+            break;
+        }
+
+        case '5':
+            return 0;
+
+        default:
+        {
+            cout << "invalid option" << endl;
+            break;
+        }
+        }
+    }
+    return 0;
 }
